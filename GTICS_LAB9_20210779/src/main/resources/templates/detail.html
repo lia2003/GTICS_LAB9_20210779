@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>Detalle del Coctel</title>
+</head>
+<body>
+<div class="container">
+  <h1 class="my-4" id="cocktail-name"></h1>
+  <img id="cocktail-image" class="img-fluid mb-4" alt="Imagen del Coctel">
+  <h4>Instrucciones</h4>
+  <p id="cocktail-instructions"></p>
+  <h4>Categoría</h4>
+  <p id="cocktail-category"></p>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+
+  fetch(`/cocktails/detail/${id}`)
+          .then(response => response.json())
+          .then(data => {
+            const cocktail = data[0]; // Asume que se obtiene un solo coctel en el array
+            document.getElementById('cocktail-name').innerText = cocktail.strDrink;
+            document.getElementById('cocktail-image').src = cocktail.strDrinkThumb;
+            document.getElementById('cocktail-instructions').innerText = cocktail.strInstructions;
+            document.getElementById('cocktail-category').innerText = cocktail.strCategory;
+          })
+          .catch(error => console.error('Error fetching cocktail details:', error));
+</script>
+</body>
+</html>

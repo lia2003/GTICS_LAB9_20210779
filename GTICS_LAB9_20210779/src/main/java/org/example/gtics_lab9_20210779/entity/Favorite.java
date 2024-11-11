@@ -7,14 +7,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Cocktail {
+public class Favorite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-    private String category;
-    private String instructions;
     private String imageUrl;
+    private String cocktailId;
 }

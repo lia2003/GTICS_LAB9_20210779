@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,11 +10,11 @@
 <body>
 <div class="container">
     <h1 class="my-4">Lista de Cocteles</h1>
+    <button class="btn btn-secondary mb-4" onclick="window.location.href='favorites.html'">List my favorite drinks</button>
     <div class="row" id="cocktail-list"></div>
 </div>
 
 <script>
-    // Fetch data from the backend and display it
     fetch('/cocktails/list')
         .then(response => response.json())
         .then(data => {
@@ -29,6 +29,7 @@
                                 <img src="${drink.strDrinkThumb}" class="card-img-top" alt="${drink.strDrink}">
                                 <div class="card-body">
                                     <h5 class="card-title">${drink.strDrink}</h5>
+                                    <button class="btn btn-primary" onclick="addFavorite('${drink.idDrink}', '${drink.strDrink}', '${drink.strDrinkThumb}')">Favorito</button>
                                 </div>
                             </div>
                         </div>
@@ -36,6 +37,22 @@
             });
         })
         .catch(error => console.error('Error fetching cocktails:', error));
+
+    function addFavorite(cocktailId, name, imageUrl) {
+        const favorite = { cocktailId, name, imageUrl };
+        fetch('/cocktails/favorite', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(favorite)
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(`${data.name} ha sido añadido a favoritos`);
+            })
+            .catch(error => console.error('Error adding favorite:', error));
+    }
 </script>
 </body>
 </html>

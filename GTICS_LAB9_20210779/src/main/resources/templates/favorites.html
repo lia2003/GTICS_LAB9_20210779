@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Mis Bebidas Favoritas</title>
+</head>
+<body>
+<div class="container">
+    <h1 class="my-4">Mis Bebidas Favoritas</h1>
+    <div class="row" id="favorites-list"></div>
+</div>
+
+<script>
+    fetch('/cocktails/favorites')
+        .then(response => response.json())
+        .then(data => {
+            const favoritesList = document.getElementById('favorites-list');
+            data.forEach(favorite => {
+                favoritesList.innerHTML += `
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <a href="detail.html?id=${favorite.cocktailId}">
+                                    <img src="${favorite.imageUrl}" class="card-img-top" alt="${favorite.name}">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">${favorite.name}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+            });
+        })
+        .catch(error => console.error('Error fetching favorites:', error));
+</script>
+</body>
+</html>
