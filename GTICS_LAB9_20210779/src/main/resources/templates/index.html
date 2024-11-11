@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Lista de Cocteles</title>
+</head>
+<body>
+<div class="container">
+    <h1 class="my-4">Lista de Cocteles</h1>
+    <div class="row" id="cocktail-list"></div>
+</div>
+
+<script>
+    // Fetch data from the backend and display it
+    fetch('/cocktails/list')
+        .then(response => response.json())
+        .then(data => {
+            const cocktailList = document.getElementById('cocktail-list');
+            data.forEach((drink, index) => {
+                if (index % 3 === 0) {
+                    cocktailList.innerHTML += '<div class="w-100"></div>'; // Nueva fila cada 3 cocteles
+                }
+                cocktailList.innerHTML += `
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="${drink.strDrinkThumb}" class="card-img-top" alt="${drink.strDrink}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${drink.strDrink}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+            });
+        })
+        .catch(error => console.error('Error fetching cocktails:', error));
+</script>
+</body>
+</html>
